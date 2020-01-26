@@ -9,6 +9,7 @@ var stringifyJSON = function(obj) {
 
 	//if key/value pair is function or undefined, return 'null'
 
+	/*
 	if (typeof obj === "function") {
 		return 'null';
 	}
@@ -16,6 +17,8 @@ var stringifyJSON = function(obj) {
 	if (typeof obj === "undefined") {
 		return 'null';
 	}
+	apparently unneeded...can skip these elements within the object if statement
+	*/
 
 	//if anything outside of array or object, return that value as string directly
 
@@ -48,14 +51,17 @@ var stringifyJSON = function(obj) {
 	}
 
 	if (typeof obj === "object") {
-    var result = []
-    Object.keys(obj).forEach(function(key) {
-      var value = stringifyJSON(obj[key]);
-      if (value !== null) {
-        result.push('"' + key + '":' + value)
-      }
-    })
-    return '{' + result.join(',') + '}';
+    	var result = []
+    	Object.keys(obj).forEach(function(key) {
+	      	if (typeof obj[key] !== "function" && obj[key] !== undefined) {
+	      	var value = stringifyJSON(obj[key]);
+	      		if (value !== null) {
+	        	result.push('"' + key + '":' + value)
+	      		}
+	      	}
+	    });
+
+    	return '{' + result.join(',') + '}';
 	}
 
 }
