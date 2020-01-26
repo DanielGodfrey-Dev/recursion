@@ -10,16 +10,16 @@ var stringifyJSON = function(obj) {
 	//if key/value pair is function or undefined, return 'null'
 
 	if (typeof obj === "function") {
-		return undefined;
+		return 'null';
 	}
 
 	if (typeof obj === "undefined") {
-		return undefined;
+		return 'null';
 	}
 
 	//if anything outside of array or object, return that value as string directly
 
-	if (typeof obj === "null") {
+	if (typeof obj === "object" && obj === null) {
 		return 'null';
 	}
 
@@ -36,7 +36,7 @@ var stringifyJSON = function(obj) {
 	}
 
 	if (typeof obj === "string") {
-		return '"' + string + '"';
+		return '"' + obj + '"';
 	}
 
 	if (Array.isArray(obj) === true) {
@@ -48,6 +48,14 @@ var stringifyJSON = function(obj) {
 	}
 
 	if (typeof obj === "object") {
-	//need recursive code
+    var result = []
+    Object.keys(obj).forEach(function(key) {
+      var value = stringifyJSON(obj[key]);
+      if (value !== null) {
+        result.push('"' + key + '":' + value)
+      }
+    })
+    return '{' + result.join(',') + '}';
 	}
+
 }
