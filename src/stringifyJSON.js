@@ -7,32 +7,32 @@ var stringifyJSON = function(obj) {
 
 	//considering fixtures file, deciced to map cases first
 
-	//if key/value pair is function or undefined, skip
+	//if key/value pair is function or undefined, return 'null'
 
 	if (typeof obj === "function") {
-		continue;
+		return undefined;
 	}
 
-	if (typeof obj === undefined) {
-		continue;
+	if (typeof obj === "undefined") {
+		return undefined;
 	}
 
 	//if anything outside of array or object, return that value as string directly
 
-	if (typeof obj === null) {
+	if (typeof obj === "null") {
 		return 'null';
 	}
 
-	if (typeof obj === true) {
+	if (obj === true) {
 		return 'true';
 	}
 
-	if (typeof obj === false) {
+	if (obj === false) {
 		return 'false';
 	}
 
 	if (typeof obj === "number") {
-		return obj;
+		return '' + obj + '';
 	}
 
 	if (typeof obj === "string") {
@@ -40,10 +40,14 @@ var stringifyJSON = function(obj) {
 	}
 
 	if (Array.isArray(obj) === true) {
-	//need recursive code
+		if (Array.isArray(obj) === true) {
+    		return '[' + _.map(obj, function(element) {
+        		return stringifyJSON(element);
+      		}) + ']';
+    	}
 	}
 
 	if (typeof obj === "object") {
-		//need recursive code
+	//need recursive code
 	}
 }
